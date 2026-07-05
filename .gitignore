@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+.env
+
+# IDE
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Reports
+reports/*.json
+reports/*.pdf
+
+# Testing
+.pytest_cache/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
