@@ -15,3 +15,4 @@ resource "azurerm_network_security_group" "bad_nsg" {
     destination_address_prefix = "*"
   }
 }
+

@@ -1,0 +1,7 @@
+{
+  "resource": {
+    "type": "azurerm_storage_account",
+    "name": "bad_storage",
+    "public_access": true
+  }
+}
