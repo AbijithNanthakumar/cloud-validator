@@ -1,104 +1,71 @@
-# import streamlit as st
-
-# from dashboard.components.metrics import metric_card
-
-
-# def show_overview():
-
-#     st.markdown(
-#         """
-#         <div class="main-title">
-#             🛡️ Psiddhi AI Cloud Validator
-#         </div>
-
-#         <div class="subtitle">
-#             AI Powered Cloud Infrastructure Security Platform
-#         </div>
-#         """,
-#         unsafe_allow_html=True
-#     )
-
-#     st.divider()
-
-#     col1, col2, col3, col4 = st.columns(4)
-
-#     with col1:
-#         metric_card(
-#             "Security Score",
-#             "36%",
-#             "#2563EB"
-#         )
-
-#     with col2:
-#         metric_card(
-#             "Compliance",
-#             "Non-Compliant",
-#             "#EF4444"
-#         )
-
-#     with col3:
-#         metric_card(
-#             "Resources",
-#             "3",
-#             "#10B981"
-#         )
-
-#     with col4:
-#         metric_card(
-#             "Failed Checks",
-#             "16",
-#             "#F59E0B"
-#         )
-
-
 import streamlit as st
 
-from components.metrics import metric_card
+from components.layout import page_header
+from components.kpi_section import show_kpis
+from components.tables import findings_table
+from components.charts import severity_chart
 
+from dashboard.services.dashboard_service import DashboardService
 
 def show_overview():
+    """
+    Displays the Overview dashboard.
+    """
 
-    st.markdown(
-        """
-        <div class="main-title">
-            🛡️ Psiddhi AI Cloud Validator
-        </div>
+    dashboard_data = DashboardService().load_dashboard()
 
-        <div class="subtitle">
-            AI Powered Cloud Infrastructure Security Platform
-        </div>
-        """,
-        unsafe_allow_html=True
+    summary = dashboard_data.summary
+
+    page_header(
+        "Psiddhi AI Cloud Validator",
+        "AI Powered Cloud Infrastructure Security Platform"
     )
 
-    st.divider()
+    metrics = [
+        {
+            "title": "Security Score",
+            "value": f"{summary.security_score}%",
+            "color": "#2563EB",
+            "icon": "🛡️",
+            "subtitle": "Overall security posture"
+        },
+        {
+            "title": "Compliance",
+            "value": summary.compliance,
+            "color": "#EF4444",
+            "icon": "⚠️",
+            "subtitle": "Current compliance status"
+        },
+        {
+            "title": "Resources",
+            "value": summary.resources,
+            "color": "#10B981",
+            "icon": "☁️",
+            "subtitle": "Infrastructure scanned"
+        },
+        {
+            "title": "Failed Checks",
+            "value": summary.failed,
+            "color": "#F59E0B",
+            "icon": "❌",
+            "subtitle": "Requires immediate attention"
+        }
+    ]
 
-    col1, col2, col3, col4 = st.columns(4)
+    show_kpis(metrics)
 
-    with col1:
-        metric_card(
-            "Security Score",
-            "36%",
-            "#2563EB"
+    st.markdown("## 📊 Security Analytics")
+
+    left, right = st.columns(2)
+
+    with left:
+        severity_chart(dashboard_data.findings)
+
+    with right:
+        st.info(
+            "Resource distribution chart will be added next."
         )
 
-    with col2:
-        metric_card(
-            "Compliance",
-            "Non-Compliant",
-            "#EF4444"
-        )
+    st.markdown("## 🔍 Latest Findings")
 
-    with col3:
-        metric_card(
-            "Resources",
-            "3",
-            "#10B981"
-        )
-
-    with col4:
-        metric_card(
-            "Failed Checks",
-            "16",
-            "#F59E0B"
-        )
+    findings_table(dashboard_data.findings)

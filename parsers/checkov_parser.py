@@ -1,5 +1,3 @@
-# UPDATED------------------------------------------------------------------------
-
 import json
 from pathlib import Path
 
@@ -15,6 +13,41 @@ class CheckovParser:
 
     def __init__(self, report_path: str):
         self.report_path = Path(report_path)
+
+    def _get_severity(self, check_id: str) -> str:
+        """
+        Temporary severity mapping for dashboard visualization.
+
+        NOTE:
+        This is a placeholder. In a future version, we'll load
+        severity from Checkov metadata or maintain a centralized
+        mapping file.
+        """
+
+        critical = {
+            "CKV_AZURE_9",
+            "CKV_AZURE_20"
+        }
+
+        high = {
+            "CKV_AZURE_28",
+            "CKV_AZURE_33"
+        }
+
+        medium = {
+            "CKV_AZURE_59"
+        }
+
+        if check_id in critical:
+            return "Critical"
+
+        if check_id in high:
+            return "High"
+
+        if check_id in medium:
+            return "Medium"
+
+        return "Low"
 
     def parse(self) -> ScanReport:
 
@@ -35,7 +68,7 @@ class CheckovParser:
                 resource=check["resource"],
                 file_name=Path(check["file_path"]).name,
                 guideline=check["guideline"],
-                severity="Unknown"
+                severity=self._get_severity(check["check_id"])
             )
 
             findings.append(finding)
@@ -47,6 +80,3 @@ class CheckovParser:
             resource_count=summary["resource_count"],
             findings=findings
         )
-
-
-
