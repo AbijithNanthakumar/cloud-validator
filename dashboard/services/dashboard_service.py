@@ -1,8 +1,8 @@
 from engine.validation_engine import ValidationEngine
 from services.ai_analysis_service import AIAnalysisService
 
-from models.dashboard_summary import DashboardSummary
-from models.dashboard_data import DashboardData
+from dashboard.models.dashboard_summary import DashboardSummary
+from dashboard.models.dashboard_data import DashboardData
 
 
 class DashboardService:
@@ -15,9 +15,12 @@ class DashboardService:
         self.validation_engine = ValidationEngine()
         self.ai_service = AIAnalysisService()
 
-    def load_dashboard(self):
+    def load_dashboard(self) -> DashboardData:
+        """
+        Loads all dashboard data required by the UI.
+        """
 
-        # Execute validation
+        # Execute infrastructure validation
         report, findings = self.validation_engine.validate()
 
         # Generate AI analysis

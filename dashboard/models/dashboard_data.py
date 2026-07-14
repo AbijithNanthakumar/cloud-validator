@@ -4,7 +4,8 @@ from typing import List
 from models.report import ScanReport
 from models.finding import Finding
 from models.ai_result import AIResult
-from models.dashboard_summary import DashboardSummary
+
+from dashboard.models.dashboard_summary import DashboardSummary
 
 
 @dataclass

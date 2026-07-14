@@ -1,11 +1,12 @@
 import streamlit as st
 
-from components.layout import page_header
-from components.kpi_section import show_kpis
-from components.tables import findings_table
-from components.charts import severity_chart
+from dashboard.components.layout import page_header
+from dashboard.components.kpi_section import show_kpis
+from dashboard.components.tables import findings_table
+from dashboard.components.charts import severity_chart
 
 from dashboard.services.dashboard_service import DashboardService
+
 
 def show_overview():
     """
@@ -69,3 +70,6 @@ def show_overview():
     st.markdown("## 🔍 Latest Findings")
 
     findings_table(dashboard_data.findings)
+
+
+    

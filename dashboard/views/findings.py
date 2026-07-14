@@ -1,13 +1,14 @@
 import streamlit as st
 
-from components.layout import page_header
-from components.tables import findings_table
+from dashboard.components.layout import page_header
+from dashboard.components.tables import findings_table
 
 from dashboard.services.dashboard_service import DashboardService
 
+
 def show_findings():
     """
-    Displays all security findings.
+    Displays all detected security findings.
     """
 
     page_header(
