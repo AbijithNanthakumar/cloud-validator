@@ -8,6 +8,10 @@ from models.ai_result import AIResult
 class AIAnalysisService:
     """
     Business service responsible for AI analysis workflow.
+
+    Handles temporary AI provider failures so that the main
+    validation pipeline does not crash when an external AI
+    service is unavailable.
     """
 
     def __init__(self):
@@ -18,4 +22,12 @@ class AIAnalysisService:
         findings: List[Finding]
     ) -> List[AIResult]:
 
-        return self.ai_engine.analyze(findings)
+        try:
+            return self.ai_engine.analyze(findings)
+
+        except Exception as exc:
+            print(
+                f"[AIAnalysisService] AI analysis unavailable: {exc}"
+            )
+
+            return []

@@ -42,7 +42,7 @@ Keep the answer under 200 words.
 
         response = self.client.chat.completions.create(
 
-            model="meta-llama/llama-prompt-guard-2-22m",
+            model="openai/gpt-oss-20b",
 
             messages=[
                 {
